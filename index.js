@@ -2,6 +2,9 @@ const express = require ("express");
 const hbs = require ("hbs");
 const wax = require ("wax-on");
 require ("dotenv").config();
+var helpers = require('handlebars-helpers')({
+    handlebars: hbs.handlebars
+  });
 
 //create an instance of app
 let app = express();
@@ -21,11 +24,11 @@ app.use(
 
 //import in routes
 const landingRoutes = require('./routes/landing');
-const productRoutes = require('./routes/products');
+const posterRoutes = require('./routes/posters');
 //app.use('/', require('./routes/landing')) short form
 
 app.use('/', landingRoutes);
-app.use('/products', productRoutes);
+app.use('/posters', posterRoutes);
 
 app.listen(3000,()=>{
     console.log("server started")

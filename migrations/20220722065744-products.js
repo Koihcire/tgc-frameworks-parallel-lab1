@@ -15,25 +15,29 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable("products",{
+  return db.createTable("posters",{
     id: {
       type: "int",
       primaryKey: true,
       autoIncrement: true,
       unsigned: true
     },
-    name: {
+    title: {
       type: "string",
       length: 100,
       notNull: false //by default notnull is true
     },
     cost: "int",
-    description: "text"
+    description: "text",
+    date: "date",
+    stock: "int",
+    height: "int",
+    width: "int"
   })
 };
 
 exports.down = function(db) {
-  return db.dropTable("products");
+  return db.dropTable("posters");
 };
 
 exports._meta = {

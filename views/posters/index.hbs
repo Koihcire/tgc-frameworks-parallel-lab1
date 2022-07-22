@@ -1,0 +1,32 @@
+{{#extends "base"}}
+{{#block "content"}}
+
+<h1>Our Posters</h1>
+<p>Explore our collection of posters</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Cost</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Stock</th>
+            <th>Dimensions H by W</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each posters}}
+        <tr>
+            <td>{{this.title}}</td>
+            <td>${{divide this.cost 100}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.stock}}</td>
+            <td>{{this.height}}cm by {{this.width}}cm</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{/block}}
+{{/extends}}

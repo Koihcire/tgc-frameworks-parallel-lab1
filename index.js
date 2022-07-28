@@ -1,10 +1,10 @@
-const express = require ("express");
-const hbs = require ("hbs");
-const wax = require ("wax-on");
-require ("dotenv").config();
+const express = require("express");
+const hbs = require("hbs");
+const wax = require("wax-on");
+require("dotenv").config();
 var helpers = require('handlebars-helpers')({
     handlebars: hbs.handlebars
-  });
+});
 
 //create an instance of app
 let app = express();
@@ -30,6 +30,6 @@ const posterRoutes = require('./routes/posters');
 app.use('/', landingRoutes);
 app.use('/posters', posterRoutes);
 
-app.listen(3000,()=>{
+app.listen(3000, () => {
     console.log("server started")
 })

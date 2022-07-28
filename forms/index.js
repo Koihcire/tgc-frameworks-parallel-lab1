@@ -2,6 +2,7 @@
 const forms = require("forms");
 // create some shortcuts
 const fields = forms.fields;
+const widgets = forms.widgets;
 const validators = forms.validators;
 
 const bootstrapField = function (name, object) {
@@ -43,7 +44,7 @@ const createPosterForm = ()=>{
         "date": fields.date({
             required: true,
             errorAfterField: true,
-            validators: [validators.max(curDate)]
+            // validators: [validators.max(curDate)]
         }),
         "stock": fields.number({
             required: true,

@@ -25,7 +25,7 @@ const bootstrapField = function (name, object) {
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
 
-const createPosterForm = ()=>{
+const createPosterForm = (mediaProperties, tags)=>{
     let curDate = new Date();
     return forms.create({
         "title": fields.string({
@@ -59,6 +59,22 @@ const createPosterForm = ()=>{
             required: false,
             errorAfterField: false,
             validators: [validators.integer(), validators.min(0)],
+        }),
+        "mediaProperty_id": fields.string({
+            label: "Media Property",
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: mediaProperties
+        }),
+        'tags': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.multipleSelect(),
+            choices: tags
         })
     })
 }

@@ -3,7 +3,7 @@
 
 <h1>Our Posters</h1>
 <p>Explore our collection of posters</p>
-<a href="posters/create" class="btn btn-sm btn-primary">Add New</a>
+<a href="/posters/create" class="btn btn-sm btn-primary">Add New</a>
 <table class="table">
     <thead>
         <tr>
@@ -13,6 +13,7 @@
             <th>Date</th>
             <th>Stock</th>
             <th>Dimensions H by W</th>
+            <th>Media</th>
             <th></th>
             <th></th>
         </tr>
@@ -26,8 +27,9 @@
             <td>{{this.date}}</td>
             <td>{{this.stock}}</td>
             <td>{{this.height}}cm by {{this.width}}cm</td>
-            <td><a href="posters/{{this.id}}/update" class="btn btn-sm btn-primary">Update</a></td>
-            <td><a href="posters/{{this.id}}/delete" class="btn btn-sm btn-danger">Delete</a></td>
+            <td>{{this.mediaProperty.name}}</td>
+            <td><a href="/posters/{{this.id}}/update" class="btn btn-sm btn-primary">Update</a></td>
+            <td><a href="/posters/{{this.id}}/delete" class="btn btn-sm btn-danger">Delete</a></td>
         </tr>
         {{/each}}
     </tbody>

@@ -52,16 +52,7 @@ router.post("/create", async (req, res) => {
                 await poster.tags().attach(tags.split(','));
             }
 
-            // const poster = new Poster(form.data);
-            // poster.set("title", form.data.title);
-            // poster.set("cost", form.data.cost);
-            // poster.set("description", form.data.description);
-            // poster.set("date", form.data.date);
-            // poster.set("stock", form.data.stock);
-            // poster.set("height", form.data.height);
-            // poster.set("width", form.data.width);
-
-
+            req.flash('success_messages', `New Poster ${poster.get('name')} has been created`)
             res.redirect("/posters")
         },
         "error": (form) => {

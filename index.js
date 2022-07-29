@@ -5,6 +5,9 @@ require("dotenv").config();
 const helpers = require('handlebars-helpers')({
     handlebars: hbs.handlebars
 });
+const session = require ('express-session');
+const flash = require('connect-flash');
+const FileStore = require('session-file-store')(session);
 
 //create an instance of app
 let app = express();
@@ -21,6 +24,23 @@ app.use(
         extended: false
     })
 )
+
+//set up sessions
+app.use(session({
+    store: new FileStore(),
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}))
+
+//set up flash messages
+app.use(flash());
+//register flash middleware
+app.use(function(req,res,next){
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
+    next();
+});
 
 //import in routes
 const landingRoutes = require('./routes/landing');

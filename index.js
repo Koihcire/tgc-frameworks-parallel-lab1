@@ -2,7 +2,7 @@ const express = require("express");
 const hbs = require("hbs");
 const wax = require("wax-on");
 require("dotenv").config();
-var helpers = require('handlebars-helpers')({
+const helpers = require('handlebars-helpers')({
     handlebars: hbs.handlebars
 });
 
@@ -26,6 +26,8 @@ app.use(
 const landingRoutes = require('./routes/landing');
 const posterRoutes = require('./routes/posters');
 //app.use('/', require('./routes/landing')) short form
+
+
 
 app.use('/', landingRoutes);
 app.use('/posters', posterRoutes);

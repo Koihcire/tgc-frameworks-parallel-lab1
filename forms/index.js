@@ -44,6 +44,7 @@ const createPosterForm = (mediaProperties, tags)=>{
         "date": fields.date({
             required: true,
             errorAfterField: true,
+            widget: widgets.date(),
             // validators: [validators.max(curDate)]
         }),
         "stock": fields.number({

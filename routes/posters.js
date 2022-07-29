@@ -7,7 +7,7 @@ const { route } = require("./landing");
 
 router.get("/", async (req, res) => {
     let posters = await Poster.collection().fetch({
-        withRelated: ['mediaProperty']
+        withRelated: ['mediaProperty', 'tags']
     });
 
     res.render("posters/index", {

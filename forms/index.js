@@ -79,4 +79,26 @@ const createPosterForm = (mediaProperties, tags)=>{
         })
     })
 }
-module.exports = {createPosterForm, bootstrapField}
+
+const createRegistrationForm = () => {
+    return forms.create({
+        'username': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'password': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'confirm_password': fields.string({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.matchField('password')]
+        })
+    })
+}
+module.exports = {createPosterForm, bootstrapField, createRegistrationForm}

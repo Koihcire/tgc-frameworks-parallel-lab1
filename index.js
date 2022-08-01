@@ -45,12 +45,14 @@ app.use(function(req,res,next){
 //import in routes
 const landingRoutes = require('./routes/landing');
 const posterRoutes = require('./routes/posters');
+const userRoutes = require('./routes/users');
 //app.use('/', require('./routes/landing')) short form
 
 
 
 app.use('/', landingRoutes);
 app.use('/posters', posterRoutes);
+app.use('/users', userRoutes)
 
 app.listen(3000, () => {
     console.log("server started")

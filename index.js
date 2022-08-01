@@ -8,9 +8,31 @@ const helpers = require('handlebars-helpers')({
 const session = require ('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
+const csrf = require('csurf')
 
 //create an instance of app
 let app = express();
+
+//enable csrf
+app.use(csrf());
+//share csrf with hbs files
+app.use(function(req,res,next){
+    res.locals.csrfToken = req.csrfToken();
+    next(); 
+})
+
+app.use(function(err,req,res,next){
+    if (err && err.code == "EBADCSRFTOKEN") {
+        req.flash("error_messages", "The form has expired. Please try again");
+        res.redirect('back');
+    } else {
+        next()
+    }
+})
+
+
+
+
 //set view engine
 app.set("view engine", "hbs");
 //static folder
@@ -32,6 +54,12 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
+
+//share session user data with hbs files
+app.use(function(req,res,next){
+    res.locals.user = req.session.user;
+    next();
+})
 
 //set up flash messages
 app.use(flash());

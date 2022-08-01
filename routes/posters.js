@@ -4,6 +4,7 @@ const { createPosterForm, bootstrapField } = require("../forms")
 //import the posters model
 const { Poster, MediaProperty, Tag } = require('../models');
 const { route } = require("./landing");
+const {checkIfAuthenticated} = require('../middlewares')
 
 router.get("/", async (req, res) => {
     let posters = await Poster.collection().fetch({
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
     })
 })
 
-router.get("/create", async (req, res) => {
+router.get("/create", checkIfAuthenticated ,async (req, res) => {
     //read in all the media properties
     const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
         return [mediaProperty.get('id'), mediaProperty.get('name')]
@@ -25,7 +26,7 @@ router.get("/create", async (req, res) => {
     const allTags = await Tag.fetchAll().map(tag =>
         [tag.get('id'), tag.get('name')]
     );
-    console.log(allTags)
+    // console.log(allTags)
 
     const posterForm = createPosterForm(allMediaProperties, allTags);
     res.render("posters/create", {
@@ -33,7 +34,7 @@ router.get("/create", async (req, res) => {
     })
 })
 
-router.post("/create", async (req, res) => {
+router.post("/create", checkIfAuthenticated ,async (req, res) => {
     //read in all the media properties
     const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
         return [mediaProperty.get('id'), mediaProperty.get('name')]
@@ -66,7 +67,7 @@ router.post("/create", async (req, res) => {
     })
 })
 
-router.get('/:poster_id/update', async (req, res) => {
+router.get('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
 
     //retrieve the poster
     const poster = await Poster.where({
@@ -107,7 +108,7 @@ router.get('/:poster_id/update', async (req, res) => {
     })
 })
 
-router.post('/:poster_id/update', async (req, res) => {
+router.post('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
 
     //retrieve the poster
     const poster = await Poster.where({
@@ -153,7 +154,7 @@ router.post('/:poster_id/update', async (req, res) => {
     })
 })
 
-router.get('/:poster_id/delete', async (req, res) => {
+router.get('/:poster_id/delete', checkIfAuthenticated ,async (req, res) => {
     //retrieve the poster
     const poster = await Poster.where({
         'id': req.params.poster_id
@@ -166,7 +167,7 @@ router.get('/:poster_id/delete', async (req, res) => {
     })
 })
 
-router.post('/:poster_id/delete', async (req, res) => {
+router.post('/:poster_id/delete', checkIfAuthenticated ,async (req, res) => {
     //retrieve the poster
     const poster = await Poster.where({
         'id': req.params.poster_id

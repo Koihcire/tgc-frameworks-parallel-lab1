@@ -3,6 +3,7 @@
 
 <h1>Create a new Poster</h1>
 <form method="POST">
+    <input type='hidden' name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
     <input type="submit" value="Add Poster" class="btn btn-primary btn-sm mt-3" />
 </form>

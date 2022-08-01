@@ -14,21 +14,32 @@
 </head>
 
 <body>
+  <div>
+    {{#if user}}
+    Hi, {{user.username}}
+    <a href="/users/logout" class="ml-3 btn btn-primary btn-sm">Logout</a>
+    {{else}}
+    Hi, stranger
+    <a href="/users/login" class="ml-3 btn btn-primary btn-sm">Login</a>
+    {{/if}}
+  </div>
+
+
   <div class="container">
     {{#if success_messages}}
-      {{#each}}
-        <div class="alert alert-success">
-            {{this}}
-        </div>
-      {{/each}}
+    {{#each success_messages}}
+    <div class="alert alert-success">
+      {{this}}
+    </div>
+    {{/each}}
     {{/if}}
 
     {{#if error_messages}}
-      {{#each}}
-        <div class="alert alert-danger">
-          {{this}}
-        </div>
-      {{/each}}
+    {{#each error_messages}}
+    <div class="alert alert-danger">
+      {{this}}
+    </div>
+    {{/each}}
     {{/if}}
 
     {{#block "content"}}

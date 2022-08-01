@@ -3,6 +3,16 @@
 
 <h1>Login</h1>
 <p>Please login with your account below</p>
+<form method="POST">
+    <input type='hidden' name="_csrf" value="{{csrfToken}}"/>
+    {{{form}}}
+    <input type="submit" class="btn btn-sm btn-primary" value="Login" />
+</form>
+
+<div>
+    <p>No Account?</p>
+    <a href="/users/register" class="btn btn-sm btn-primary" >Register</a>
+</div>
 
 
 {{/block}}

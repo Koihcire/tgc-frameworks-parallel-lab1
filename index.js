@@ -8,6 +8,7 @@ const helpers = require('handlebars-helpers')({
 const session = require ('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
+
 const csrf = require('csurf')
 
 //create an instance of app
@@ -74,6 +75,7 @@ app.use(function(req,res,next){
 const landingRoutes = require('./routes/landing');
 const posterRoutes = require('./routes/posters');
 const userRoutes = require('./routes/users');
+const cloudinaryRoutes = require('./routes/cloudinary.js');
 //app.use('/', require('./routes/landing')) short form
 
 
@@ -81,6 +83,7 @@ const userRoutes = require('./routes/users');
 app.use('/', landingRoutes);
 app.use('/posters', posterRoutes);
 app.use('/users', userRoutes)
+app.use('/cloudinary', cloudinaryRoutes)
 
 app.listen(3000, () => {
     console.log("server started")

@@ -17,6 +17,7 @@
             <th>Tags</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,7 @@
             <td>{{this.height}}cm by {{this.width}}cm</td>
             <td>{{this.mediaProperty.name}}</td>
             <td>{{#each this.tags}} <span class="badge bg-dark">{{this.name}}</span> {{/each}}</td>
+            <td><img src="{{this.thumbnail_url}}"></img></td>
             <td><a href="/posters/{{this.id}}/update" class="btn btn-sm btn-primary">Update</a></td>
             <td><a href="/posters/{{this.id}}/delete" class="btn btn-sm btn-danger">Delete</a></td>
         </tr>

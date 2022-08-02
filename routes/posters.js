@@ -30,7 +30,10 @@ router.get("/create", checkIfAuthenticated ,async (req, res) => {
 
     const posterForm = createPosterForm(allMediaProperties, allTags);
     res.render("posters/create", {
-        "form": posterForm.toHTML(bootstrapField)
+        "form": posterForm.toHTML(bootstrapField),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -98,13 +101,18 @@ router.get('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
     posterForm.fields.height.value = poster.get("height");
     posterForm.fields.width.value = poster.get("width");
     posterForm.fields.mediaProperty_id.value = poster.get("mediaProperty_id");
+    //read in the image url
+    posterForm.fields.image_url.value = poster.get('image_url');
 
     let selectedTags = await poster.related('tags').pluck('id');
     posterForm.fields.tags.value = selectedTags
 
     res.render('posters/update', {
         form: posterForm.toHTML(bootstrapField),
-        poster: poster.toJSON()
+        poster: poster.toJSON(),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 

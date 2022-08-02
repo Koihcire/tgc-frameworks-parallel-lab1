@@ -71,11 +71,14 @@ const createPosterForm = (mediaProperties, tags)=>{
         'tags': fields.string({
             required: true,
             errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
             widget: widgets.multipleSelect(),
             choices: tags
+        }),
+        'image_url': fields.string({
+            widget: widgets.hidden()
+        }),
+        'thumbnail_url': fields.string({
+            widget: widgets.hidden()
         })
     })
 }

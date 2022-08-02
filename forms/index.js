@@ -117,4 +117,16 @@ const createLoginForm=()=>{
         })
     })
 }
-module.exports = {createPosterForm, bootstrapField, createRegistrationForm, createLoginForm}
+
+const createSearchForm = (mediaProperties, tags)=>{
+    return forms.create({
+        'title': fields.string({
+            required: false,
+            error
+        })
+    })
+
+}
+
+
+module.exports = {createPosterForm, bootstrapField, createRegistrationForm, createLoginForm, createSearchForm}

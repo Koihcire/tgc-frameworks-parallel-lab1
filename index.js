@@ -32,8 +32,6 @@ app.use(function(err,req,res,next){
 })
 
 
-
-
 //set view engine
 app.set("view engine", "hbs");
 //static folder

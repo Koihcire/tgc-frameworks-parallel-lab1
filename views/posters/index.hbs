@@ -40,7 +40,7 @@
             <td>{{moment this.date format="YYYY-MM-DD"}}</td>
             <td>{{this.stock}}</td>
             <td>{{this.height}}cm by {{this.width}}cm</td>
-            <td>{{this.mediaProperty.name}}</td>
+            <td>{{this.media_property.name}}</td>
             <td>{{#each this.tags}} <span class="badge bg-dark">{{this.name}}</span> {{/each}}</td>
             <td><a href="/posters/{{this.id}}/update" class="btn btn-sm btn-primary">Update</a></td>
             <td><a href="/posters/{{this.id}}/delete" class="btn btn-sm btn-danger">Delete</a></td>

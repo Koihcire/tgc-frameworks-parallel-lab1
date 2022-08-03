@@ -2,16 +2,16 @@ const bookshelf = require('../bookshelf')
 
 const Poster = bookshelf.model("Poster",{
     tableName: "posters",
-    mediaProperty(){
-        return this.belongsTo('MediaProperty')
+    media_property(){
+        return this.belongsTo('Media_property')
     },
     tags(){
         return this.belongsToMany('Tag')
     }
 })
 
-const MediaProperty = bookshelf.model("MediaProperty", {
-    tableName: "mediaProperties",
+const Media_property = bookshelf.model("Media_property", {
+    tableName: "media_properties",
     posters(){
         return this.hasMany('Poster')
     }
@@ -28,4 +28,4 @@ const User = bookshelf.model('User', {
     tableName: 'users'
 })
 
-module.exports = {Poster, MediaProperty, Tag, User};
+module.exports = {Poster, Media_property, Tag, User};

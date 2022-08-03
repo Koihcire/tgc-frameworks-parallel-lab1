@@ -61,7 +61,7 @@ const createPosterForm = (mediaProperties, tags)=>{
             errorAfterField: false,
             validators: [validators.integer(), validators.min(0)],
         }),
-        "mediaProperty_id": fields.string({
+        "media_property_id": fields.string({
             label: "Media Property",
             required: true,
             errorAfterField: true,

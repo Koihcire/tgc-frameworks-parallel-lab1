@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { createPosterForm, bootstrapField, createSearchForm } = require("../forms")
 //import the posters model
-const { Poster, MediaProperty, Tag } = require('../models');
+const { Poster, Media_property, Tag } = require('../models');
 const { route } = require("./landing");
 const { checkIfAuthenticated } = require('../middlewares')
 
 router.get("/", async (req, res) => {
     //read in all the media properties
-    const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
-        return [mediaProperty.get('id'), mediaProperty.get('name')]
+    const allMediaProperties = await Media_property.fetchAll().map((media_property) => {
+        return [media_property.get('id'), media_property.get('name')]
     })
     allMediaProperties.unshift([0, "----"]);
 
@@ -32,8 +32,8 @@ router.get("/", async (req, res) => {
             if(form.data.max_cost){
                 query.where('cost', '<=', form.data.max_cost)
             };
-            if (form.data.mediaProperty_id && form.data.mediaProperty_id != '0'){
-                query.where('mediaProperty_id', '=', form.data.mediaProperty_id )
+            if (form.data.media_property_id && form.data.media_property_id != '0'){
+                query.where('media_property_id', '=', form.data.media_property_id )
             };
             if(form.data.tags){
                 //first argument: sql clause
@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
 
 
             let posters = await query.fetch({
-                withRelated: ['mediaProperty', 'tags']
+                withRelated: ['media_property', 'tags']
             });
 
             res.render("posters/index", {
@@ -56,7 +56,7 @@ router.get("/", async (req, res) => {
         },
         'error': async function (form) {
             let posters = await query.fetch({
-                withRelated: ['mediaProperty', 'tags']
+                withRelated: ['media_property', 'tags']
             });
 
             res.render("posters/index", {
@@ -66,7 +66,7 @@ router.get("/", async (req, res) => {
         },
         'empty': async function (form) {
             let posters = await query.fetch({
-                withRelated: ['mediaProperty', 'tags']
+                withRelated: ['media_property', 'tags']
             });
 
             res.render("posters/index", {
@@ -79,8 +79,8 @@ router.get("/", async (req, res) => {
 
 router.get("/create", checkIfAuthenticated, async (req, res) => {
     //read in all the media properties
-    const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
-        return [mediaProperty.get('id'), mediaProperty.get('name')]
+    const allMediaProperties = await Media_property.fetchAll().map((media_property) => {
+        return [media_property.get('id'), media_property.get('name')]
     })
 
     //read in all the tags
@@ -100,7 +100,7 @@ router.get("/create", checkIfAuthenticated, async (req, res) => {
 
 router.post("/create", checkIfAuthenticated, async (req, res) => {
     //read in all the media properties
-    const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
+    const allMediaProperties = await Media_property.fetchAll().map((mediaProperty) => {
         return [mediaProperty.get('id'), mediaProperty.get('name')]
     })
 
@@ -142,8 +142,8 @@ router.get('/:poster_id/update', checkIfAuthenticated, async (req, res) => {
     });
 
     //read in all the media properties
-    const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
-        return [mediaProperty.get('id'), mediaProperty.get('name')]
+    const allMediaProperties = await Media_property.fetchAll().map((media_property) => {
+        return [media_property.get('id'), media_property.get('name')]
     })
 
     ///read in all the tags
@@ -161,7 +161,7 @@ router.get('/:poster_id/update', checkIfAuthenticated, async (req, res) => {
     posterForm.fields.stock.value = poster.get("stock");
     posterForm.fields.height.value = poster.get("height");
     posterForm.fields.width.value = poster.get("width");
-    posterForm.fields.mediaProperty_id.value = poster.get("mediaProperty_id");
+    posterForm.fields.media_property_id.value = poster.get("media_property_id");
     //read in the image url
     posterForm.fields.image_url.value = poster.get('image_url');
 

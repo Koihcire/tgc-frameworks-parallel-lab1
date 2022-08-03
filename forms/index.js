@@ -122,10 +122,32 @@ const createSearchForm = (mediaProperties, tags)=>{
     return forms.create({
         'title': fields.string({
             required: false,
-            error
+            errorAfterField: true
+        }),
+        'min_cost': fields.string({
+            required: false,
+            errorAfterField: true,
+            validators: [validators.integer()]
+        }),
+        'max_cost': fields.string({
+            required: false,
+            errorAfterField: true,
+            validators: [validators.integer()]
+        }),
+        'mediaProperty_id': fields.string({
+            label: "Media Property",
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: mediaProperties
+        }),
+        'tags': fields.string({
+            required: false,
+            errorAfterField: true,
+            widget: widgets.multipleSelect(),
+            choices: tags
         })
     })
-
 }
 
 

@@ -1,22 +1,83 @@
 const express = require("express");
 const router = express.Router();
-const { createPosterForm, bootstrapField } = require("../forms")
+const { createPosterForm, bootstrapField, createSearchForm } = require("../forms")
 //import the posters model
 const { Poster, MediaProperty, Tag } = require('../models');
 const { route } = require("./landing");
-const {checkIfAuthenticated} = require('../middlewares')
+const { checkIfAuthenticated } = require('../middlewares')
 
 router.get("/", async (req, res) => {
-    let posters = await Poster.collection().fetch({
-        withRelated: ['mediaProperty', 'tags']
-    });
+    //read in all the media properties
+    const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
+        return [mediaProperty.get('id'), mediaProperty.get('name')]
+    })
+    allMediaProperties.unshift([0, "----"]);
 
-    res.render("posters/index", {
-        posters: posters.toJSON()
+    //read in all the tags
+    const allTags = await Tag.fetchAll().map(tag =>
+        [tag.get('id'), tag.get('name')]
+    );
+
+    //create search form
+    let searchForm = createSearchForm(allMediaProperties, allTags);
+    let query = Poster.collection();
+    searchForm.handle(req, {
+        'success': async function (form) {
+            if (form.data.title){
+                query.where('title', 'like', '%' + form.data.title + '%')
+            };
+            if(form.data.min_cost){
+                query.where('cost', '>=', form.data.min_cost)
+            };
+            if(form.data.max_cost){
+                query.where('cost', '<=', form.data.max_cost)
+            };
+            if (form.data.mediaProperty_id && form.data.mediaProperty_id != '0'){
+                query.where('mediaProperty_id', '=', form.data.mediaProperty_id )
+            };
+            if(form.data.tags){
+                //first argument: sql clause
+                //second argument: which table
+                //third: one of the keys
+                //fourth: the key to joiin with
+                query.query('join', 'posters_tags', 'posters.id', 'poster_id' )
+                .where ('tag_id' , 'in', form.data.tags.split(','))
+            }
+
+
+            let posters = await query.fetch({
+                withRelated: ['mediaProperty', 'tags']
+            });
+
+            res.render("posters/index", {
+                posters: posters.toJSON(),
+                form: searchForm.toHTML(bootstrapField)
+            })
+        },
+        'error': async function (form) {
+            let posters = await query.fetch({
+                withRelated: ['mediaProperty', 'tags']
+            });
+
+            res.render("posters/index", {
+                posters: posters.toJSON(),
+                form: searchForm.toHTML(bootstrapField)
+            })
+        },
+        'empty': async function (form) {
+            let posters = await query.fetch({
+                withRelated: ['mediaProperty', 'tags']
+            });
+
+            res.render("posters/index", {
+                posters: posters.toJSON(),
+                form: searchForm.toHTML(bootstrapField)
+            })
+        }
     })
 })
 
-router.get("/create", checkIfAuthenticated ,async (req, res) => {
+router.get("/create", checkIfAuthenticated, async (req, res) => {
     //read in all the media properties
     const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
         return [mediaProperty.get('id'), mediaProperty.get('name')]
@@ -37,7 +98,7 @@ router.get("/create", checkIfAuthenticated ,async (req, res) => {
     })
 })
 
-router.post("/create", checkIfAuthenticated ,async (req, res) => {
+router.post("/create", checkIfAuthenticated, async (req, res) => {
     //read in all the media properties
     const allMediaProperties = await MediaProperty.fetchAll().map((mediaProperty) => {
         return [mediaProperty.get('id'), mediaProperty.get('name')]
@@ -70,7 +131,7 @@ router.post("/create", checkIfAuthenticated ,async (req, res) => {
     })
 })
 
-router.get('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
+router.get('/:poster_id/update', checkIfAuthenticated, async (req, res) => {
 
     //retrieve the poster
     const poster = await Poster.where({
@@ -116,7 +177,7 @@ router.get('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
     })
 })
 
-router.post('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
+router.post('/:poster_id/update', checkIfAuthenticated, async (req, res) => {
 
     //retrieve the poster
     const poster = await Poster.where({
@@ -162,7 +223,7 @@ router.post('/:poster_id/update', checkIfAuthenticated ,async (req, res) => {
     })
 })
 
-router.get('/:poster_id/delete', checkIfAuthenticated ,async (req, res) => {
+router.get('/:poster_id/delete', checkIfAuthenticated, async (req, res) => {
     //retrieve the poster
     const poster = await Poster.where({
         'id': req.params.poster_id
@@ -175,7 +236,7 @@ router.get('/:poster_id/delete', checkIfAuthenticated ,async (req, res) => {
     })
 })
 
-router.post('/:poster_id/delete', checkIfAuthenticated ,async (req, res) => {
+router.post('/:poster_id/delete', checkIfAuthenticated, async (req, res) => {
     //retrieve the poster
     const poster = await Poster.where({
         'id': req.params.poster_id
